@@ -19,11 +19,15 @@ from contextlib import closing
 import os
 
 links = ['http://feeds.bbci.co.uk/news/world/rss.xml', 'https://habrahabr.ru/rss/interesting/']
-FEEDS = {}
+FEEDS = []
 
 
 def rss_parser(feed_name: str) -> [{}]:
-    link = FEEDS.get(feed_name)
+    link = None
+    for row in FEEDS:
+        if row.get('name') == feed_name:
+            link = row.get('link')
+            print(link)
     News = feedparser.parse(link)
     return News.entries
 
@@ -85,4 +89,5 @@ def get_feeds() -> []:
 
 def init_feeds():
     for link in links:
-        FEEDS.update({'name': get_news_feed_name(link), 'link': link})
+        FEEDS.append({'name': get_news_feed_name(link), 'link': link})
+    print(FEEDS)

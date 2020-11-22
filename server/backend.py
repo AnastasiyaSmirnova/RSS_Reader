@@ -22,8 +22,7 @@ class Server(BaseHTTPRequestHandler):
         print(self.path)
         if self.path == '/feeds':
             r = get_feeds()
-            json_string = json.dumps(
-                {'feeds': r})
+            json_string = json.dumps(r)
             self.wfile.write(json_string.encode())
 
         elif self.path.startswith('/update'):
@@ -32,9 +31,7 @@ class Server(BaseHTTPRequestHandler):
             print(feed)
             write_to_db(feed)
             r = get_all_news_by_feed(feed)
-            json_string = json.dumps(
-                {'news': r}
-            )
+            json_string = json.dumps(r)
             self.wfile.write(json_string.encode())
 
 
