@@ -7,4 +7,12 @@
 # Editor-based HTTP Client requests
 /httpRequests/
 
-../.idea/
+/dataSources/*
+.idea/
+/misc.xml
+/modules.xml
+/inspectionProfiles/*
+/server.iml
+/sqldialects.xml
+/vcs.xml
+/dataSources.xml
