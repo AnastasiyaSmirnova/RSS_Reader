@@ -18,8 +18,13 @@ from psycopg2 import sql
 from contextlib import closing
 import os
 
-links = ['http://feeds.bbci.co.uk/news/world/rss.xml', 'https://habrahabr.ru/rss/interesting/']
-FEEDS = []
+FEEDS = [
+    {'name': 'bbci', 'link': 'http://feeds.bbci.co.uk/news/world/rss.xml'},
+    {'name': 'NewYorkTimes', 'link': 'https://www.nytimes.com/svc/collections/v1/publish/https://www.nytimes.com/section/world/rss.xml'},
+    {'name': 'habr', 'link': 'https://habrahabr.ru/rss/interesting/'},
+    {'name': 'BuzzFeed',
+     'link': 'https://www.buzzfeed.com/world.xml'}
+]
 
 
 def rss_parser(feed_name: str) -> [{}]:
@@ -55,6 +60,7 @@ def write_to_db(news_feed_name):
                     values.append((news_feed_name, next_article.get('title'), next_article.get('published'),
                                    next_article.get('id')))
             if len(values) > 0:
+                print(f'{len(values)} objects will be stored')
                 insert = sql.SQL('INSERT INTO python_rss.news (news_feed_name, title, date, link) VALUES {}').format(
                     sql.SQL(',').join(map(sql.Literal, values))
                 )
@@ -88,6 +94,4 @@ def get_feeds() -> []:
 
 
 def init_feeds():
-    for link in links:
-        FEEDS.append({'name': get_news_feed_name(link), 'link': link})
     print(FEEDS)
