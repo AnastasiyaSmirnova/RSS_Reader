@@ -2,28 +2,33 @@
 <clr-spinner id="spinner" *ngIf="loading"></clr-spinner>
 
 <div id="content-area">
-  <clr-button-group *ngIf="feedNamesArray">
-    <clr-button *ngFor="let feedName of feedNamesArray" (click)="checkCurrentFeedName(feedName.name)">
-      <clr-icon *ngIf="feedName.name == currentFeedName" shape="check"></clr-icon>
-      {{feedName.name}}
-    </clr-button>
-  </clr-button-group>
+  <div id="helper-line">
+    <clr-button-group *ngIf="feedNamesArray">
+      <clr-button *ngFor="let feedName of feedNamesArray" (click)="checkCurrentFeedName(feedName.name)">
+        <clr-icon *ngIf="feedName.name == currentFeedName" shape="check"></clr-icon>
+        {{feedName.name}}
+      </clr-button>
+    </clr-button-group>
+    <clr-icon size="32" shape="sync" style="cursor: pointer" (click)="updateNews()"></clr-icon>
+  </div>
   <clr-datagrid *ngIf="newsArray">
     <clr-dg-column>Date</clr-dg-column>
     <clr-dg-column>Title</clr-dg-column>
     <clr-dg-column>Link</clr-dg-column>
 
-    <clr-dg-row *ngFor="let row of newsArray">
-      <clr-dg-cell>{{row.parsedDate}}</clr-dg-cell>
+    <clr-dg-row *clrDgItems="let row of newsArray" [clrDgItem]="row">
+      <clr-dg-cell>{{row.parsedDate | date: 'dd/MM/yyyy'}}</clr-dg-cell>
       <clr-dg-cell>{{row.title}}</clr-dg-cell>
       <clr-dg-cell><a [href]="row.link" target="_blank">{{row.link}}</a></clr-dg-cell>
     </clr-dg-row>
 
+    <clr-dg-placeholder *ngIf="newsArray.length == 0">No news :(</clr-dg-placeholder>
+
     <clr-dg-footer>
+      {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
+      of {{pagination.totalItems}} records
       <clr-dg-pagination #pagination [clrDgPageSize]="5">
         <clr-dg-page-size [clrPageSizeOptions]="[5,10,20]">Record per page</clr-dg-page-size>
-        {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
-        of {{pagination.totalItems}} records
       </clr-dg-pagination>
     </clr-dg-footer>
   </clr-datagrid>

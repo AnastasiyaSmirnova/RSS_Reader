@@ -6,13 +6,20 @@
   display: block;
 }
 
-#content-area {
-  margin-top: 100px;
+clr-datagrid {
+  margin: 0 10px;
+  max-height: 500px;
 }
 
 #spinner {
   position: fixed;
   top: 45%;
-  left: 45%;
+  left: 47%;
   z-index: 100000;
+}
+
+#helper-line {
+  margin: 5px 10px;
+  display: flex;
+  justify-content: space-between;
 }

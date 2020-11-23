@@ -1,9 +1,9 @@
 export interface NewsRecord {
-  id: number;
-  newsFeedName: string;
+  id?: number;
+  newsFeedName?: string;
   title: string;
   link: string;
-  date: string;
+  date?: string;
   parsedDate?: Date;
 }
 

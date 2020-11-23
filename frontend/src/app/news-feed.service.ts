@@ -20,11 +20,11 @@ export class NewsFeedService {
     return this.http.get<FeedRecord[]>(`${this.url}/feeds`, {headers});
   }
 
-  getNewsByFeed(feedName: string): Observable<NewsRecord[]> {
+  getNewsByFeed(feedName: string): Observable<[]> {
     const headers = new HttpHeaders();
     headers.set('Access-Control-Request-Headers', 'Content-Type');
     headers.set('Access-Control-Allow-Origin', '*');
     headers.set('Access-Control-Request-Method', 'GET');
-    return this.http.get<NewsRecord[]>(`${this.url}/update?feed=${feedName}`);
+    return this.http.get<[]>(`${this.url}/update?feed=${feedName}`);
   }
 }

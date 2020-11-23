@@ -27,6 +27,7 @@ export class AppComponent implements OnInit {
         this.loading = false;
         this.feedNamesArray = data;
         this.currentFeedName = this.feedNamesArray[0].name;
+        this.updateNews(this.currentFeedName);
       },
       error => {
         this.loading = false;
@@ -36,19 +37,49 @@ export class AppComponent implements OnInit {
   }
 
   parseDate(dateString: string): Date {
-    return new Date(dateString);
+    const getMonthNumber = (name: string) => {
+      let res = -1;
+      ['January', 'February', 'March', 'April', 'May', 'June',
+        'July', 'August', 'September', 'October', 'November', 'December'
+      ].forEach((el, index) => {
+        if (el.startsWith(name)) {
+          res = index + 1;
+        }
+      });
+      return res;
+    };
+
+    /**
+     *
+     * example of date record: Sun, 22 Nov 2020 11:53:06 GMT
+     * needed date string - 2020-11-22T11:53:06
+     *
+     */
+    const dateStringArray = dateString.split(' ');
+    console.log(dateStringArray);
+    const [day, month, year, time] = dateStringArray.slice(1, 5);
+    const formattedDate = `${year}-${getMonthNumber(month)}-${day}T${time}`;
+    console.log(formattedDate);
+    return new Date(formattedDate);
   }
 
-  updateNews(feedName: string): void {
+  updateNews(feedName: string = this.currentFeedName): void {
+    if (!feedName) {
+      return;
+    }
     this.loading = true;
+    this.newsArray = [];
     this.service.getNewsByFeed(feedName).subscribe(
       data => {
         console.log(data);
         this.loading = false;
         data.forEach(el => {
-          el.parsedDate = this.parseDate(el.date);
+          this.newsArray.push({
+            title: el[2],
+            link: el[4],
+            parsedDate: this.parseDate(el[3])
+          });
         });
-        this.newsArray = data;
       },
       error => {
         this.loading = false;
