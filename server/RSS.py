@@ -20,7 +20,8 @@ import os
 
 FEEDS = [
     {'name': 'bbci', 'link': 'http://feeds.bbci.co.uk/news/world/rss.xml'},
-    {'name': 'NewYorkTimes', 'link': 'https://www.nytimes.com/svc/collections/v1/publish/https://www.nytimes.com/section/world/rss.xml'},
+    {'name': 'NewYorkTimes',
+     'link': 'https://www.nytimes.com/svc/collections/v1/publish/https://www.nytimes.com/section/world/rss.xml'},
     {'name': 'habr', 'link': 'https://habrahabr.ru/rss/interesting/'},
     {'name': 'BuzzFeed',
      'link': 'https://www.buzzfeed.com/world.xml'}
@@ -94,4 +95,9 @@ def get_feeds() -> []:
 
 
 def init_feeds():
+    print(FEEDS)
+
+
+def add_feed(name: str, link: str) -> None:
+    FEEDS.append({"name": name, "link": link})
     print(FEEDS)

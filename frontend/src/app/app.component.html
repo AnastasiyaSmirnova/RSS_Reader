@@ -2,6 +2,11 @@
 <clr-spinner id="spinner" *ngIf="loading"></clr-spinner>
 
 <div id="content-area">
+  <div id="new-feed-input">
+    <input clrInput [(ngModel)]="newFeedName" placeholder="enter name of feed"/>
+    <input clrInput [(ngModel)]="newFeedLink" placeholder="enter link to feed"/>
+    <button class="btn btn-primary" (click)="addNewResource()">add</button>
+  </div>
   <div id="helper-line">
     <clr-button-group *ngIf="feedNamesArray">
       <clr-button *ngFor="let feedName of feedNamesArray" (click)="checkCurrentFeedName(feedName.name)">

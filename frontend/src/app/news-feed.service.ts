@@ -27,4 +27,12 @@ export class NewsFeedService {
     headers.set('Access-Control-Request-Method', 'GET');
     return this.http.get<[]>(`${this.url}/update?feed=${feedName}`);
   }
+
+  addNewFeedResource(feedName: string, feedLink: string): Observable<any> {
+    const headers = new HttpHeaders();
+    headers.set('Access-Control-Request-Headers', 'Content-Type');
+    headers.set('Access-Control-Allow-Origin', '*');
+    headers.set('Access-Control-Request-Method', 'GET');
+    return this.http.get(`${this.url}/add?name=${feedName}&link=${feedLink}`);
+  }
 }

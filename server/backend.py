@@ -3,7 +3,7 @@ import json
 import urllib.parse as urlparse
 from urllib.parse import parse_qs
 
-from RSS import init_feeds, get_feeds, get_all_news_by_feed, write_to_db
+from RSS import init_feeds, get_feeds, get_all_news_by_feed, write_to_db, add_feed
 
 IP = "127.0.0.1"
 PORT = 8080
@@ -33,6 +33,13 @@ class Server(BaseHTTPRequestHandler):
             r = get_all_news_by_feed(feed)
             json_string = json.dumps(r)
             self.wfile.write(json_string.encode())
+
+        elif self.path.startswith('/add'):
+            parsed = urlparse.urlparse(self.path)
+            feed_name = parse_qs(parsed.query)['name'][0]
+            feed_link = parse_qs(parsed.query)['link'][0]
+            print(f'new feed resource: {feed_name} at {feed_link}')
+            add_feed(feed_name, feed_link)
 
 
 def run(server_class=HTTPServer, handler_class=Server):

@@ -17,10 +17,17 @@ export class AppComponent implements OnInit {
 
   newsArray: NewsRecord[] = [];
 
+  newFeedName: string;
+  newFeedLink: string;
+
   constructor(private service: NewsFeedService) {
   }
 
   ngOnInit(): void {
+    this.loadFeeds();
+  }
+
+  loadFeeds(): void {
     this.service.getAllFeedNames().subscribe(
       data => {
         console.log(data);
@@ -91,5 +98,17 @@ export class AppComponent implements OnInit {
   checkCurrentFeedName(name: string): void {
     this.currentFeedName = name;
     this.updateNews(name);
+  }
+
+  addNewResource(name = this.newFeedName, link = this.newFeedLink): void {
+    console.log('add new feed');
+    this.service.addNewFeedResource(name, link).subscribe(
+      () => {
+        this.loadFeeds();
+      },
+      error => {
+        alert(`adding new feed resource failed: ${error}`);
+      }
+    );
   }
 }

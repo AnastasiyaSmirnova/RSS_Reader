@@ -23,3 +23,11 @@ clr-datagrid {
   display: flex;
   justify-content: space-between;
 }
+
+#new-feed-input {
+  display: flex;
+}
+#new-feed-input *{
+  margin-left: 10px;
+
+}
